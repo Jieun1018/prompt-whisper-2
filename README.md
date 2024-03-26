@@ -12,13 +12,13 @@ Please first install openai's whisper repo and also the packages in `requirement
 ## Training
 To run the training example, ensure that Gigaspeech medium is downladed to `data/hf_dd_data/gigaspeech/m` and execute
 ```
-python ./clairaudience/main.py ./configs/cfg_gigaspeech_ft_base.json
+python ./clairaudience/main.py ./config/cfg_gigaspeech_ft_base.json
 ```
 
 ## Evaluation
 To run the training example, ensure that Gigaspeech medium is downladed to `data/hf_dd_data/gigaspeech/m` and execute
 ```
-python ./clairaudience/main.py ./configs/cfg_gigaspeech_evaluation.json
+python ./clairaudience/main.py ./config/cfg_gigaspeech_evaluation.json
 ```
 
 ## Model Weight
