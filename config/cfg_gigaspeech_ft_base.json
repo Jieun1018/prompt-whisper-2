@@ -5,7 +5,7 @@
     "model_force_lang": "english",
 
     "dataset_name": "gigaspeech",
-    "dataset_path": "data/hf_dd_data/gigaspeech/m",
+    "dataset_path": "data/speechcolab/gigaspeech/m",
     "train_with_prompts": true,
     "valid_with_prompts": true,
     "test_with_prompts": true,

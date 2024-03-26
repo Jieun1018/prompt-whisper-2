@@ -10,9 +10,16 @@ if __name__ == '__main__':
     parser.add_argument("--num_proc", type=int, default=4, help="Num. of proc. to process the dataset")
     
     args = parser.parse_args()
+    print(args.path)
+    print(args.name)
     if args.name is not None:    
         ds = load_dataset(args.path, args.name, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
     else:
         ds = load_dataset(args.path, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
+    
+    print('8'*20)
+    print(ds)
+    print('8'*20)
+    
     ds.save_to_disk(f"{args.save_dir}/{args.path}/{args.name}", num_proc=args.num_proc)
     print(f"DatasetDict {args.path}/{args.name} saved into {args.save_dir} from cache folder {args.cache_dir}")

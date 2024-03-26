@@ -1,4 +1,4 @@
-git+https://github.com/openai/whisper.git@v20230314#egg=whisper
+git+https://github.com/openai/whisper.git@v20230314#egg=openai-whisper
 datasets>=2.6.1
 transformers==4.29.2
 librosa
