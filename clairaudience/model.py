@@ -792,5 +792,5 @@ def init_model(cfg: Dict[str, any]) -> Tuple[ClairaudienceForConditionalGenerati
 
 def whisper_feature_extractor(raw_audio: np.array):
     audio_padded = whisper.pad_or_trim(raw_audio.flatten())
-    input_feature = whisper.log_mel_spectrogram(audio_padded)
+    input_feature = whisper.log_mel_spectrogram(audio_padded, n_mels=80)
     return input_feature

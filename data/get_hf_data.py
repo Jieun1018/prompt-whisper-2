@@ -12,10 +12,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     #print(args.path)
     #print(args.name)
-    if args.name is not None:    
-        ds = load_dataset(args.path, args.name, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
-    else:
-        ds = load_dataset(args.path, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
+    #if args.name is not None:    
+    #    ds = load_dataset(args.path, args.name, num_proc=args.num_proc, use_auth_token=True)
+    #else:
+    #    ds = load_dataset(args.path, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
+    ds = load_dataset("audiofolder", data_dir="/workspace/prompt-whisper/DB_single_ch")
     
     #print('8'*20)
     print(ds)

@@ -138,6 +138,10 @@ def setup_dataset(dataset_name,
         # HACK: Put the medical dataset into DatasetDict format
         splits = ["test"]
         dataset = DatasetDict(dict(test=dataset))
+    elif dataset_name == "sitec":
+        dataset = dataset.select_columns(["audio", "text", "audio_id"])
+        dataset_pre_func = None
+        splits = ["train", "validation", "test"]
     else:
         raise NotImplementedError(f"dataset name: {dataset_name} not recognizable.")
     

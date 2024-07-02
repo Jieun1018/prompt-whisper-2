@@ -78,7 +78,12 @@ def analyzed_raw_data(dataset: Dataset, output_dir: str = None, target_column: s
         except ValueError as e:
             print(f"Skip a row as {getattr(e, 'message', repr(e))} occurs in target: {ref}")
     wer = jiwer.wer(targets_filter, preds_filter)
+    targets_no_blank = [t.replace(' ', '') for t in targets_filter]
+    preds_no_blank = [p.replace(' ', '') for p in preds_filter]
+    cer = jiwer.cer(targets_no_blank, preds_no_blank)
+
     logging.info(f'WER = {wer}')
+    logging.info(f"CER = {cer}")
     we_info = extract_word_error_info(targets_filter, preds_filter)
     pd_data = pd.DataFrame(dict(wer=wers, **we_info, 
                                 target_clean=targets_filter,

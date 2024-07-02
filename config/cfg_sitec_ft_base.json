@@ -1,22 +1,22 @@
 {
     "seed": 42,
-    "train_mode": true,
+    "train_mode": false,
     "model_name": "openai/whisper-large-v2",
-    "model_force_lang": "english",
+    "model_force_lang": "korean",
 
-    "dataset_name": "gigaspeech",
-    "dataset_path": "/workspace/prompt-whisper/data/gigaspeech/speechcolab/gigaspeech/m",
+    "dataset_name": "sitec",
+    "dataset_path": "/workspace/prompt-whisper/data/sitec/audiofolder/sitec",
     "train_with_prompts": true,
     "valid_with_prompts": true,
     "test_with_prompts": true,
-    "train_prompt_info": "/workspace/prompt-whisper/data/gigaspeech_train_gpt_result_parsed.csv",
-    "valid_prompt_info": "/workspace/prompt-whisper/data/gigaspeech_val_gpt_result_parsed.csv",
-    "test_prompt_info": "/workspace/prompt-whisper/data/gigaspeech_test_gpt_result_parsed.csv",
+    "train_prompt_info": "/workspace/prompt-whisper/fake_csv/train_fake_1.csv",
+    "valid_prompt_info": "/workspace/prompt-whisper/fake_csv/valid_fake_1.csv",
+    "test_prompt_info": "/workspace/prompt-whisper/fake_csv/test_fake_1.csv",
 
     "dataset_split": "test",
     "num_beams": 3,
-    "output_dir": "outputs",
-    "cache_dir": "outputs/cache_dir",
+    "output_dir": "0701_fake_1",
+    "cache_dir": "0701_fake_1/cache_dir",
     "dataset_num_proc": 8,
     "num_subsamples": -1,
     "num_train_subsamples": -1,
@@ -40,11 +40,11 @@
     "warmup_steps": 200,
     "dataloader_num_workers": 16,
 
-    "per_device_eval_batch_size": 8,
+    "per_device_eval_batch_size": 16,
     "eval_steps": 50,
     "evaluation_strategy": "no",
     "logging_steps": 10,
     "save_steps": 50,
     "predict_with_generate": true,
-    "resume_from_checkpoint": null
+    "resume_from_checkpoint": "/workspace/prompt-whisper/0701_fake_1/07_02_02_25_52/checkpoint-1000"
 }

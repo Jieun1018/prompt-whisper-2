@@ -20,20 +20,29 @@ from clairaudience.data_process import setup_dataset, warp_hf_dataset_to_th_data
 from clairaudience.utils import get_repo_hash, analyzed_raw_data
 from clairaudience.trainer import ClairaudienceTrainer, ClairaudienceTrainingArguments
 from clairaudience.data_transform import get_transform, DataCollatorSpeechSeq2SeqWithPadding, _CE_IGNORE_INDEX
+import wandb
 
 
-def run(cfg):
+def run():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("config_path", type=str, help="Path to a config file for running clairaudience")
+    args = parser.parse_args()
+
+    cfg = json.load(open(args.config_path, 'r'))
+    
     # Setup logging
     now = datetime.now().strftime("%m_%d_%H_%M_%S")
     output_dir = f"{cfg['output_dir']}/{now}"
     output_dir = output_dir if os.path.abspath(output_dir) else f"{os.getcwd()}/{output_dir}"
     log_dir = f"{output_dir}/logging"
     cache_dir = cfg["cache_dir"] if os.path.abspath(cfg["cache_dir"]) else f"{os.getcwd()}/{cfg['cache_dir']}"
-    os.makedirs(output_dir)
-    os.makedirs(log_dir)
-    os.makedirs(cache_dir, exist_ok=True)
-    json.dump(cfg, open(f"{output_dir}/cl_config.json", "w"), indent=2)
-
+    try:
+        os.makedirs(output_dir)
+        os.makedirs(log_dir)
+        os.makedirs(cache_dir, exist_ok=True)
+        json.dump(cfg, open(f"{output_dir}/cl_config.json", "w"), indent=2)
+    except: pass
+    
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -79,7 +88,7 @@ def run(cfg):
         eval_steps=cfg["eval_steps"],
         save_steps=cfg["save_steps"],
         logging_steps=cfg["logging_steps"],
-        report_to=["tensorboard"],
+        report_to=["tensorboard", "wandb"],
         load_best_model_at_end=False,
         greater_is_better=False,
         push_to_hub=False,
@@ -97,8 +106,9 @@ def run(cfg):
     resume_from_checkpoint = cfg["resume_from_checkpoint"]
     logging.info(f"Run {'train' if cfg['train_mode'] else 'eval'} routine.")
     if not cfg["train_mode"]:
-        test_dataset = dataset['test'][:8]
-        test_dataset = Dataset.from_pandas(pd.DataFrame(data=test_dataset))
+        test_dataset = dataset['test']
+        try: test_dataset = Dataset.from_pandas(pd.DataFrame(data=test_dataset))
+        except: pass
         test_dataset.set_transform(get_transform(cfg, tokenizer, "test"))
         trainer.eval_dataset = warp_hf_dataset_to_th_dataset(test_dataset)
         logging.info("Eval mode. Start evaluating ....")
@@ -122,9 +132,4 @@ def run(cfg):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument("config_path", type=str, help="Path to a config file for running clairaudience")
-    args = parser.parse_args()
-
-    cfg = json.load(open(args.config_path, 'r'))
-    run(cfg)
+    run()

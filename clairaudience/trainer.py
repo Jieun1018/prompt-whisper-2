@@ -145,7 +145,8 @@ class ClairaudienceTrainer(Seq2SeqTrainer):
         tokenizer = self.tokenizer
         global_step = self.state.global_step
         output_dir = f"{self.args.output_dir}/eval_step{global_step}"
-        os.makedirs(output_dir)
+        try: os.makedirs(output_dir)
+        except: pass
 
         batch_size = self.args.per_device_eval_batch_size
         data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor, generation_mode=True)

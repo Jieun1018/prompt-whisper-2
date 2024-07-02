@@ -9,7 +9,10 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, Dict, List, Callable, Union
 from whisper.normalizers import EnglishTextNormalizer
-from whisper.audio import N_MELS, N_FRAMES
+from whisper.audio import N_FRAMES
+#N_MELS=128
+N_MELS=80
+    
 from transformers import WhisperFeatureExtractor, WhisperTokenizer, WhisperProcessor, WhisperForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +126,11 @@ def transform_audio(samples,
     else:
         input_features = []
         for sample in samples["audio"]:
-            padded_feat = whisper_feature_extractor(sample["array"].astype(np.float32)).numpy()
+            try: padded_feat = whisper_feature_extractor(sample["array"].astype(np.float32)).numpy()
+            except:
+                sample["array"] = np.array(sample["array"])
+                padded_feat = whisper_feature_extractor(sample["array"].astype(np.float32)).numpy()
+
             input_features.append(padded_feat)
     out_samples["input_features"] = input_features
     
