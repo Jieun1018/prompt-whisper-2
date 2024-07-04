@@ -221,7 +221,7 @@ def get_transform(cfg, tokenizer, stage='train'):
                                                   use_cross_attn=cfg["use_cross_attn"],
                                                   use_null_inputs=cfg["use_null_inputs"],
                                                   use_prompts=cfg[use_prompt_opt],
-                                                  use_random_selection=True,
+                                                  use_random_selection=False,
                                                   tokenizer=tokenizer,
                                                   pinfo=pinfo)
     elif stage in {"validation", "test"}:
