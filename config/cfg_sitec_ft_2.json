@@ -46,5 +46,5 @@
     "logging_steps": 10,
     "save_steps": 50,
     "predict_with_generate": true,
-    "resume_from_checkpoint": "/workspace/prompt-whisper/true_2/07_03_11_18_06/checkpoint-1000"
+    "resume_from_checkpoint": "/workspace/prompt-whisper/true_2/07_03_11_18_05/checkpoint-1000"
 }
