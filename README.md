@@ -8,6 +8,16 @@ Feng-Ting Liao, Yung-Chieh Chan, Yi-Chang Chen, Chan-Jan Hsu, Da-shan Shiu
 
 ## Installation
 Please first install openai's whisper repo and also the packages in `requirements.txt`
+After installed `requirements.txt`, please install below
+```
+pip install pytorch_lightning
+pip install nltk
+pip install truecase
+pip install gitpython
+
+import nltk
+nltk.download('punkt')
+```
 
 ## Training
 To run the training example, ensure that Gigaspeech medium is downladed to `data/hf_dd_data/gigaspeech/m` and execute
