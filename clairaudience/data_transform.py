@@ -10,8 +10,8 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Callable, Union
 from whisper.normalizers import EnglishTextNormalizer
 from whisper.audio import N_FRAMES
-#N_MELS=128
-N_MELS=80
+N_MELS=128
+#N_MELS=80
     
 from transformers import WhisperFeatureExtractor, WhisperTokenizer, WhisperProcessor, WhisperForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer
 
@@ -120,7 +120,7 @@ def transform_audio(samples,
     # Handle audio
     input_features = None
     if "input_features" in samples:
-        input_features = samples["input_features"]
+	    input_features = samples["input_features"]
     elif use_null_inputs:
         input_features = np.zeros((batch_size, N_MELS, N_FRAMES))
     else:
@@ -176,6 +176,7 @@ def transform_for_prediction(samples,
 
     out_samples['decoder_input_ids'] = decoder_input_ids
     out_samples['labels'] = labels
+
     return out_samples
 
 

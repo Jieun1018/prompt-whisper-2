@@ -60,6 +60,8 @@ def run():
     # Prepare model
     logging.info(f"Start Loading Model")
     model, feature_extractor, tokenizer, processor = init_model(cfg)
+    #print(model)
+    #exit()
 
     # Prepare datasets
     logging.info(f"Start Loading Dataset - {cfg['dataset_name']}")
