@@ -1,22 +1,22 @@
 {
     "seed": 42,
-    "train_mode": true,
+    "train_mode": false,
     "model_name": "openai/whisper-large-v3",
     "model_force_lang": "korean",
 
     "dataset_name": "sitec",
     "dataset_path": "/workspace/prompt-whisper/data/sitec/audiofolder/sitec",
     "train_with_prompts": true,
-    "valid_with_prompts": true,
-    "test_with_prompts": true,
-    "train_prompt_info": "/workspace/prompt-whisper/fake_csv/train_fake_domain_2.csv",
-    "valid_prompt_info": "/workspace/prompt-whisper/fake_csv/validation_fake_domain_2.csv",
-    "test_prompt_info": "/workspace/prompt-whisper/fake_csv/test_fake_domain_2.csv",
+    "valid_with_prompts": false,
+    "test_with_prompts": false,
+    "train_prompt_info": "/workspace/prompt-whisper/csv/train_sitec_parsed_1.csv",
+    "valid_prompt_info": "/workspace/prompt-whisper/csv/validation_sitec_parsed_1.csv",
+    "test_prompt_info": "/workspace/prompt-whisper/csv/test_sitec_parsed_1.csv",
 
     "dataset_split": "test",
     "num_beams": 3,
-    "output_dir": "largev3_fake_2",
-    "cache_dir": "largev3_fake_2/cache_dir",
+    "output_dir": "largev3_true_1",
+    "cache_dir": "largev3_true_1/cache_dir",
     "dataset_num_proc": 8,
     "num_subsamples": -1,
     "num_train_subsamples": -1,
@@ -46,5 +46,5 @@
     "logging_steps": 10,
     "save_steps": 50,
     "predict_with_generate": true,
-    "resume_from_checkpoint": null
+    "resume_from_checkpoint": "/workspace/prompt-whisper/largev3_true_1/07_16_10_56_23/checkpoint-1000"
 }
