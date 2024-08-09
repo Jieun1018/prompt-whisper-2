@@ -1,0 +1,50 @@
+{
+    "seed": 42,
+    "train_mode": false,
+    "model_name": "openai/whisper-large-v3",
+    "model_force_lang": "korean",
+
+    "dataset_name": "sitec",
+    "dataset_path": "/workspace/prompt-whisper/data/sitec/audiofolder/sitec",
+    "train_with_prompts": true,
+    "valid_with_prompts": true,
+    "test_with_prompts": true,
+    "train_prompt_info": "/workspace/prompt-whisper/fake_csv_new/train_fake_domain_new_5.csv",
+    "valid_prompt_info": "/workspace/prompt-whisper/fake_csv_new/validation_fake_domain_new_5.csv",
+    "test_prompt_info": "/workspace/prompt-whisper/fake_csv_new/test_fake_domain_new_5.csv",
+
+    "dataset_split": "test",
+    "num_beams": 3,
+    "output_dir": "largev3_fake_new_5",
+    "cache_dir": "largev3_fake_new_5/cache_dir",
+    "dataset_num_proc": 8,
+    "num_subsamples": -1,
+    "num_train_subsamples": -1,
+    "num_valid_subsamples": 100,
+    "num_test_subsamples": -1,
+
+    "use_kl_loss":false,
+    "kl_coeff": 0.2,
+    "kl_type": "KL_div",
+    "use_cross_attn": true,
+    "use_no_speech_bias": false,
+    "use_null_inputs": false,
+
+    "max_target_positions": 448,
+
+    "learning_rate": 5e-6,
+    "per_device_train_batch_size": 32,
+    "gradient_accumulation_steps": 2,
+    "weight_decay": 0,
+    "max_steps": 1000,
+    "warmup_steps": 200,
+    "dataloader_num_workers": 16,
+
+    "per_device_eval_batch_size": 16,
+    "eval_steps": 50,
+    "evaluation_strategy": "no",
+    "logging_steps": 10,
+    "save_steps": 50,
+    "predict_with_generate": true,
+    "resume_from_checkpoint": "/workspace/prompt-whisper/largev3_fake_new_5/07_26_16_39_00/checkpoint-1000"
+}
