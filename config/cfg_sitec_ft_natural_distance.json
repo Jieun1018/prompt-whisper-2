@@ -1,17 +1,17 @@
 {
     "seed": 42,
-    "train_mode": false,
+    "train_mode": true,
     "model_name": "openai/whisper-large-v3",
     "model_force_lang": "korean",
 
     "dataset_name": "sitec",
-    "dataset_path": "/workspace/prompt-whisper/data/sitec/audiofolder/sitec",
+    "dataset_path": "/workspace/prompt-whisper-2/data/sitec/audiofolder/sitec",
     "train_with_prompts": true,
     "valid_with_prompts": true,
     "test_with_prompts": true,
-    "train_prompt_info": "/workspace/prompt-whisper/natural_csv/train_sitec_natural_distance.csv",
-    "valid_prompt_info": "/workspace/prompt-whisper/natural_csv/validation_sitec_natural_distance.csv",
-    "test_prompt_info": "/workspace/prompt-whisper/natural_csv/test_sitec_natural_distance.csv",
+    "train_prompt_info": "/workspace/prompt-whisper-2/natural_csv/train_sitec_natural_distance.csv",
+    "valid_prompt_info": "/workspace/prompt-whisper-2/natural_csv/validation_sitec_natural_distance.csv",
+    "test_prompt_info": "/workspace/prompt-whisper-2/natural_csv/test_sitec_natural_distance.csv",
 
     "dataset_split": "test",
     "num_beams": 3,
@@ -46,5 +46,5 @@
     "logging_steps": 10,
     "save_steps": 50,
     "predict_with_generate": true,
-    "resume_from_checkpoint": "/workspace/prompt-whisper/largev3_natural/08_06_16_48_21/checkpoint-1000"
+    "resume_from_checkpoint": null
 }
