@@ -393,6 +393,30 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
             layer_head_mask=layer_head_mask,
             output_attentions=output_attentions,
         )
+
+        ########## For Visualization ##########
+        ## self_attn_weights shape (bsz, num_heads, tgt_len, src_len)
+        ## self_attn_weights shape (1, num_heads, tgt_len, src_len)
+        if 1:
+            self_attn_vis = self_attn_weights[0]    # self_attn_vix shape (num_heads, tgt_len, src_len)
+            #self_attn_vis = self_attn_weights.squeeze(0)
+            num_heads = self_attn_vis.size(0)
+            for head_idx in num_heads:
+                selected_self_attn_vis = self_attn_vis[head_idx]
+
+                heatmap_data = selected_self_attn_vis.detach().cpu().numpy()
+
+                plt.imshow(heatmap_data)
+                plt.imshow(heatmap_data, cmap='viridis', aspect='auto')
+                plt.colorbar()
+                plt.title(f'Self-Attn Heatmap for Head {head_idx}')
+                plt.xlabel('src_len')
+                plt.ylabel('tgt_len')
+
+                plt.savefit('self_attn_heatmap_head_{}.png'.format(head_idx), format='png')
+                plt.clf()
+        ########## For Visualization ##########
+
         hidden_states = nn.functional.dropout(hidden_states, p=self.dropout, training=self.training)
         hidden_states = residual + hidden_states
 
