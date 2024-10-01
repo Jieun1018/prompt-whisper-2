@@ -1,7 +1,7 @@
 {
     "seed": 42,
     "train_mode": false,
-    "model_name": "openai/whisper-large-v3",
+    "modal_name": "openai/whisper-large-v3",
     "model_force_lang": "korean",
 
     "dataset_name": "sitec",
@@ -10,8 +10,8 @@
     "valid_with_prompts": true,
     "test_with_prompts": true,
     "train_prompt_info": "/workspace/prompt-whisper/natural_csv/train_sitec_natural_distance.csv",
-    "valid_prompt_info": "/workspace/prompt-whisper/fake_natural_csv2/validation_fake_natural2.csv",
-    "test_prompt_info": "/workspace/prompt-whisper/fake_natural_csv2/test_fake_natural2.csv",
+    "valid_prompt_info": "/workspace/prompt-whisper/fake_long_csv/validation_fake_long.csv",
+    "test_prompt_info": "/workspace/prompt-whisper/fake_long_csv/test_fake_long.csv",
 
     "dataset_split": "test",
     "num_beams": 3,
