@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import matplotlib.pyplot as plt
 import random
 from dataclasses import dataclass
 from transformers.utils import logging
@@ -126,7 +127,7 @@ class WhisperAttention(nn.Module):
         past_key_value: Optional[Tuple[torch.Tensor]] = None,
         attention_mask: Optional[torch.Tensor] = None,
         layer_head_mask: Optional[torch.Tensor] = None,
-        output_attentions: bool = False,
+		output_attentions: bool = False,
     ) -> Tuple[torch.Tensor, Optional[torch.Tensor], Optional[Tuple[torch.Tensor]]]:
         """Input shape: Batch x Time x Channel"""
 
@@ -376,7 +377,7 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
         layer_head_mask: Optional[torch.Tensor] = None,
         cross_attn_layer_head_mask: Optional[torch.Tensor] = None,
         past_key_value: Optional[Tuple[torch.Tensor]] = None,
-        output_attentions: Optional[bool] = False,
+		output_attentions: Optional[bool] = False,
         use_cache: Optional[bool] = True
     ) -> torch.Tensor:
         residual = hidden_states
@@ -391,17 +392,19 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
             past_key_value=self_attn_past_key_value,
             attention_mask=attention_mask,
             layer_head_mask=layer_head_mask,
-            output_attentions=output_attentions,
+            output_attentions=True,
+            #output_attentions=output_attentions,
         )
 
         ########## For Visualization ##########
         ## self_attn_weights shape (bsz, num_heads, tgt_len, src_len)
         ## self_attn_weights shape (1, num_heads, tgt_len, src_len)
         if 1:
+            #print('*******', type(self_attn_weights))
             self_attn_vis = self_attn_weights[0]    # self_attn_vix shape (num_heads, tgt_len, src_len)
             #self_attn_vis = self_attn_weights.squeeze(0)
             num_heads = self_attn_vis.size(0)
-            for head_idx in num_heads:
+            for head_idx in range(num_heads):
                 selected_self_attn_vis = self_attn_vis[head_idx]
 
                 heatmap_data = selected_self_attn_vis.detach().cpu().numpy()
@@ -413,8 +416,9 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
                 plt.xlabel('src_len')
                 plt.ylabel('tgt_len')
 
-                plt.savefit('self_attn_heatmap_head_{}.png'.format(head_idx), format='png')
+                plt.savefig('self_attn_heatmap_head_{}.png'.format(head_idx), format='png')
                 plt.clf()
+            exit()
         ########## For Visualization ##########
 
         hidden_states = nn.functional.dropout(hidden_states, p=self.dropout, training=self.training)
