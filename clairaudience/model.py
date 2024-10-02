@@ -378,7 +378,8 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
         cross_attn_layer_head_mask: Optional[torch.Tensor] = None,
         past_key_value: Optional[Tuple[torch.Tensor]] = None,
 		output_attentions: Optional[bool] = False,
-        use_cache: Optional[bool] = True
+        use_cache: Optional[bool] = True,
+        idx: Optional[int] = 0
     ) -> torch.Tensor:
         residual = hidden_states
         hidden_states = self.self_attn_layer_norm(hidden_states)
@@ -392,19 +393,22 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
             past_key_value=self_attn_past_key_value,
             attention_mask=attention_mask,
             layer_head_mask=layer_head_mask,
-            output_attentions=True,
-            #output_attentions=output_attentions,
+            #output_attentions=True,
+            output_attentions=output_attentions,
         )
 
         ########## For Visualization ##########
         ## self_attn_weights shape (bsz, num_heads, tgt_len, src_len)
         ## self_attn_weights shape (1, num_heads, tgt_len, src_len)
-        if 1:
+        if 0:
             #print('*******', type(self_attn_weights))
-            self_attn_vis = self_attn_weights[0]    # self_attn_vix shape (num_heads, tgt_len, src_len)
+            self_attn_vis = self_attn_weights.clone()[0]    # self_attn_vix shape (num_heads, tgt_len, src_len)
             #self_attn_vis = self_attn_weights.squeeze(0)
             num_heads = self_attn_vis.size(0)
+            print(f"layer: {idx}", self_attn_vis.size())
             for head_idx in range(num_heads):
+                if self_attn_vis.size(-1) != 170:
+                    continue
                 selected_self_attn_vis = self_attn_vis[head_idx]
 
                 heatmap_data = selected_self_attn_vis.detach().cpu().numpy()
@@ -412,13 +416,12 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
                 plt.imshow(heatmap_data)
                 plt.imshow(heatmap_data, cmap='viridis', aspect='auto')
                 plt.colorbar()
-                plt.title(f'Self-Attn Heatmap for Head {head_idx}')
+                plt.title(f'Layer {idx}, Self-Attn Heatmap for Head {head_idx}')
                 plt.xlabel('src_len')
                 plt.ylabel('tgt_len')
 
-                plt.savefig('self_attn_heatmap_head_{}.png'.format(head_idx), format='png')
+                plt.savefig(f'layer_{str(idx).zfill(2)}_self_attn_heatmap_head_{head_idx}.png', format='png')
                 plt.clf()
-            exit()
         ########## For Visualization ##########
 
         hidden_states = nn.functional.dropout(hidden_states, p=self.dropout, training=self.training)
@@ -441,7 +444,30 @@ class ClairaudienceDecoderLayer(WhisperDecoderLayer):
                     layer_head_mask=cross_attn_layer_head_mask,
                     past_key_value=cross_attn_past_key_value,
                     output_attentions=output_attentions,
+                    #output_attentions=True,
                 )
+                ########## For Visualization ##########
+				if 0:
+                        cross_attn_weights_vis = cross_attn_weights.clone()[0]
+                        print(f"layer: {idx}", cross_attn_weights_vis.size())
+                        for head_idx in range(num_heads):
+                                if cross_attn_weights_vis.size(-2) != 170:
+                                        continue
+                        selected_self_attn_vis = cross_attn_weights_vis[head_idx][:, :200]
+
+                        heatmap_data = selected_self_attn_vis.detach().cpu().numpy()
+
+                        plt.imshow(heatmap_data)
+                        plt.imshow(heatmap_data, cmap='viridis', aspect='auto')
+                        plt.colorbar()
+                        plt.title(f'Layer {idx}, Crocs-Attn Heatmap for Head {head_idx}')
+                        plt.xlabel('src_len')
+                        plt.ylabel('tgt_len')
+
+                        plt.savefig(f'layer_{str(idx).zfill(2)}_cross_attn_heatmap_head_{head_idx}.png', format='png')
+                        plt.clf()
+
+                ########## For Visualization ##########
                 hidden_states = nn.functional.dropout(hidden_states, p=self.dropout, training=self.training)
                 hidden_states = residual + hidden_states
 
@@ -744,6 +770,7 @@ class ClairaudienceDecoder(WhisperDecoder):
                     past_key_value=past_key_value,
                     output_attentions=output_attentions,
                     use_cache=use_cache,
+                    idx=idx,
                 )
             hidden_states = layer_outputs[0]
 
@@ -886,6 +913,7 @@ class ClairaudienceForConditionalGeneration(WhisperForConditionalGeneration):
                 => config = ClairaudienceConfig.from_pretrained("openai/whisper-tiny", use_kl_loss=True kl_coeff=0.2, kl_type="KL_div", use_cross_attn=True, use_no_speech_bias=False)
                 => model = ClairaudienceForConditionalGeneration("openai/whisper-tiny", config=config)
         """
+        config.use_cache = False
         super().__init__(config)
 
         del self.model
@@ -898,6 +926,7 @@ class ClairaudienceForConditionalGeneration(WhisperForConditionalGeneration):
     def from_whisper_pretrained(cls, pretrained_model_name_or_path, use_kl_loss=True, use_cross_attn=True, use_no_speech_bias=False, kl_coeff=0.2, kl_type="KL_div", **kwargs):
         model_config = ClairaudienceConfig(use_kl_loss=use_kl_loss, use_cross_attn=use_cross_attn, use_no_speech_bias=use_no_speech_bias, kl_coeff=kl_coeff, kl_type=kl_type,
                                            **WhisperConfig.from_pretrained(pretrained_model_name_or_path).to_dict())
+        model_config.use_cache = False
         model = ClairaudienceForConditionalGeneration(model_config)
         model.load_state_dict(WhisperForConditionalGeneration.from_pretrained(pretrained_model_name_or_path, **kwargs).state_dict(), strict=False)
         if use_kl_loss:
