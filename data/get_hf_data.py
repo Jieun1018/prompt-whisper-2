@@ -17,7 +17,8 @@ if __name__ == '__main__':
     #else:
     #    ds = load_dataset(args.path, cache_dir=args.cache_dir, num_proc=args.num_proc, use_auth_token=True)
     #ds = load_dataset("audiofolder", data_dir="/workspace/prompt-whisper/DB_single_ch")
-    ds = load_dataset("audiofolder", data_dir="/DB/DB_single_ch")
+    #ds = load_dataset("audiofolder", data_dir="/DB/DB_single_ch")
+    ds = load_dataset("audiofolder", data_dir="/DB/libri-noisy-train")
     
     #print('8'*20)
     print(ds)
