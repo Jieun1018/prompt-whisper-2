@@ -142,6 +142,10 @@ def setup_dataset(dataset_name,
         dataset = dataset.select_columns(["audio", "text", "audio_id"])
         dataset_pre_func = None
         splits = ["train", "validation", "test"]
+    elif dataset_name == "libri-noisy":
+        dataset = dataset.select_columns(["audio", "text", "audio_id"])
+        dataset_pre_func = None
+        splits = ["train", "validation", "test"]
     else:
         raise NotImplementedError(f"dataset name: {dataset_name} not recognizable.")
     

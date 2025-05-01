@@ -24,5 +24,6 @@ if __name__ == '__main__':
     print(ds)
     #print('8'*20)
     
-    ds.save_to_disk(f"{args.save_dir}/{args.path}/{args.name}", num_proc=args.num_proc)
+    #ds.save_to_disk(f"{args.save_dir}/{args.path}/{args.name}", num_proc=args.num_proc)
+    ds.save_to_disk(f"{args.save_dir}/{args.name}", num_proc=args.num_proc)
     print(f"DatasetDict {args.path}/{args.name} saved into {args.save_dir} from cache folder {args.cache_dir}")

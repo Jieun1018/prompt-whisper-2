@@ -5,7 +5,7 @@
     "model_force_lang": "english",
 
     "dataset_name": "libri-noisy",
-    "dataset_path": "/workspace/prompt-whisper-2/data/libri-noisy-data/libri-noisy",
+    "dataset_path": "/workspace/prompt-whisper-2/data/libri-noisy/libri-noisy",
     "train_with_prompts": true,
     "valid_with_prompts": true,
     "test_with_prompts": true,
@@ -33,10 +33,10 @@
     "max_target_positions": 448,
 
     "learning_rate": 5e-6,
-    "per_device_train_batch_size": 32,
-    "gradient_accumulation_steps": 2,
+    "per_device_train_batch_size": 64,
+    "gradient_accumulation_steps": 1,
     "weight_decay": 0,
-    "max_steps": 1000,
+    "max_steps": 5000,
     "warmup_steps": 200,
     "dataloader_num_workers": 16,
 
